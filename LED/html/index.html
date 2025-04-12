@@ -1,0 +1,486 @@
+<!DOCTYPE HTML><html>
+<head>
+  <title>DASHBOARD</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+  <link rel="icon" href="data:,">
+  
+  <style>
+    html {font-family: Arial; display: inline-block; text-align: center;}
+    h1 {  font-size: 2rem;}
+    body {  margin: 0;}
+    .topnav { overflow: hidden; background-color: #2f4468; color: white; font-size: 1.7rem; }
+    .content { padding: 20px; }
+    .card { background-color: white; box-shadow: 2px 2px 12px 1px rgba(140,140,140,.5); }
+    .cards { max-width: 700px; margin: 0 auto; display: grid; grid-gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+    .reading { font-size: 2.8rem; }
+    .timestamp { color: #bebebe; font-size: 1rem; }
+    .card-title{ font-size: 1.2rem; font-weight : bold; }
+    .card.temperature { color: #B10F2E; }
+    .card.humidity { color: #50B8B4; }
+
+    /* Switch button */
+    .switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+    }
+
+    .switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+    }
+
+    .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+
+    -webkit-appearance: none;
+    width: 100%;
+    height: 33px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    }
+
+    .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+    }
+
+    input:checked + .slider {
+    background-color: #2196F3;
+    }
+
+    input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+    border-radius: 34px;
+    }
+
+    .slider.round:before {
+    border-radius: 50%;
+    }
+
+    /* Range slider */
+    .slidecontainer {
+    width: 100%;
+    }
+
+    .slider:hover {
+    opacity: 1;
+    }
+
+    .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: #04AA6D;
+    cursor: pointer;
+    }
+
+    .slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: #04AA6D;
+    cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+    <div class="topnav">
+    <h1>DASHBOARD</h1>
+    </div>
+
+    <h2>Toggle Switch</h2>
+    <label class="switch" id="switch1">
+    <input type="checkbox" checked id="myCheck1" onclick="switch_button()">
+    <span class="slider round"></span>
+    </label><br><br>
+
+    <div>
+        <h2>Set Time</h2>
+        <p id="display_time"></p>
+        <span>Time update(s):  </span>
+        <select id="time_u">
+            <option value="01">01</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="30">30</option>
+            <option value="45">45</option>
+            <option value="60">60</option>
+            <option value="120">120</option>
+            <option value="180">180</option>
+            <option value="240">240</option>
+        </select><br><br>
+
+        <span>Time on:</span>
+        <select id="hour_on">
+            <option value="00">00</option>
+            <option value="01">01</option>
+            <option value="02">02</option>
+            <option value="03">03</option>
+            <option value="04">04</option>
+            <option value="05">05</option>
+            <option value="06">06</option>
+            <option value="07">07</option>
+            <option value="08">08</option>
+            <option value="09">09</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
+            <option value="16">16</option>
+            <option value="17">17</option>
+            <option value="18">18</option>
+            <option value="19">19</option>
+            <option value="20">20</option>
+            <option value="21">21</option>
+            <option value="22">22</option>
+            <option value="23">23</option>
+        </select>
+        <select id="min_on">
+            <option value="00">00</option>
+            <option value="01">01</option>
+            <option value="02">02</option>
+            <option value="03">03</option>
+            <option value="04">04</option>
+            <option value="05">05</option>
+            <option value="06">06</option>
+            <option value="07">07</option>
+            <option value="08">08</option>
+            <option value="09">09</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
+            <option value="16">16</option>
+            <option value="17">17</option>
+            <option value="18">18</option>
+            <option value="19">19</option>
+            <option value="20">20</option>
+            <option value="21">21</option>
+            <option value="22">22</option>
+            <option value="23">23</option>
+            <option value="24">24</option>
+            <option value="25">25</option>
+            <option value="26">26</option>
+            <option value="27">27</option>
+            <option value="28">28</option>
+            <option value="29">29</option>
+            <option value="30">30</option>
+            <option value="31">31</option>
+            <option value="32">32</option>
+            <option value="33">33</option>
+            <option value="34">34</option>
+            <option value="35">35</option>
+            <option value="36">36</option>
+            <option value="37">37</option>
+            <option value="38">38</option>
+            <option value="39">39</option>
+            <option value="40">40</option>
+            <option value="41">41</option>
+            <option value="42">42</option>
+            <option value="43">43</option>
+            <option value="44">44</option>
+            <option value="45">45</option>
+            <option value="46">46</option>
+            <option value="47">47</option>
+            <option value="48">48</option>
+            <option value="49">49</option>
+            <option value="50">50</option>
+            <option value="51">51</option>
+            <option value="52">52</option>
+            <option value="53">53</option>
+            <option value="54">54</option>
+            <option value="55">55</option>
+            <option value="56">56</option>
+            <option value="57">57</option>
+            <option value="58">58</option>
+            <option value="59">59</option>
+        </select><br><br>
+        <p>Time on set:</p><p id="display_time_on"></p>
+        <!-- switch enable to set led on -->
+        <label class="switch" id="switch2">
+            <input type="checkbox" checked id="enable_led_on" onclick="switch_on()">
+            <span class="slider round"></span>
+        </label><br><br>
+
+        <span>Time off:</span>
+        <select id="hour_off">
+            <option value="00">00</option>
+            <option value="01">01</option>
+            <option value="02">02</option>
+            <option value="03">03</option>
+            <option value="04">04</option>
+            <option value="05">05</option>
+            <option value="06">06</option>
+            <option value="07">07</option>
+            <option value="08">08</option>
+            <option value="09">09</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
+            <option value="16">16</option>
+            <option value="17">17</option>
+            <option value="18">18</option>
+            <option value="19">19</option>
+            <option value="20">20</option>
+            <option value="21">21</option>
+            <option value="22">22</option>
+            <option value="23">23</option>
+        </select>
+        <select id="min_off">
+            <option value="00">00</option>
+            <option value="01">01</option>
+            <option value="02">02</option>
+            <option value="03">03</option>
+            <option value="04">04</option>
+            <option value="05">05</option>
+            <option value="06">06</option>
+            <option value="07">07</option>
+            <option value="08">08</option>
+            <option value="09">09</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
+            <option value="16">16</option>
+            <option value="17">17</option>
+            <option value="18">18</option>
+            <option value="19">19</option>
+            <option value="20">20</option>
+            <option value="21">21</option>
+            <option value="22">22</option>
+            <option value="23">23</option>
+            <option value="24">24</option>
+            <option value="25">25</option>
+            <option value="26">26</option>
+            <option value="27">27</option>
+            <option value="28">28</option>
+            <option value="29">29</option>
+            <option value="30">30</option>
+            <option value="31">31</option>
+            <option value="32">32</option>
+            <option value="33">33</option>
+            <option value="34">34</option>
+            <option value="35">35</option>
+            <option value="36">36</option>
+            <option value="37">37</option>
+            <option value="38">38</option>
+            <option value="39">39</option>
+            <option value="40">40</option>
+            <option value="41">41</option>
+            <option value="42">42</option>
+            <option value="43">43</option>
+            <option value="44">44</option>
+            <option value="45">45</option>
+            <option value="46">46</option>
+            <option value="47">47</option>
+            <option value="48">48</option>
+            <option value="49">49</option>
+            <option value="50">50</option>
+            <option value="51">51</option>
+            <option value="52">52</option>
+            <option value="53">53</option>
+            <option value="54">54</option>
+            <option value="55">55</option>
+            <option value="56">56</option>
+            <option value="57">57</option>
+            <option value="58">58</option>
+            <option value="59">59</option>
+        </select><br><br>
+        <p>Time off set:</p><p id="display_time_off"></p>
+        <!-- switch enable to set led off -->
+        <label class="switch" id="switch3">
+            <input type="checkbox" checked id="enable_led_off">
+            <span class="slider round"></span>
+        </label><br><br>
+
+        <button onclick="set_time()">OK</button>
+        <p>the ip: </p><p id="ip"></p>
+    </div><br><br>
+
+    <div class="picker-container">
+        <div class="row">
+            <h3>Led Color</h3>
+        </div>
+        <input class="jscolor {onFineChange:'update(this)}" id="rgb" onchange="changeColor()">
+        <!-- <button onclick="changeColor()">Change</button> -->
+    </div><br>
+
+    <div>
+        <h2>Wifi Register</h2>
+        <label>SSID:</label>
+        <input type="text" id="ssid"><br><br>
+        <label>Password:</label>
+        <input type="text" id="pass"><br><br>
+        <button onclick="verify_register_wifi_inf()">Send</button>
+        <button onclick="reset_wifi()">Reset Wifi</button>
+        <br><br><br>
+    </div>
+    
+
+    <script> 
+        var xhttp1= new XMLHttpRequest();
+        var xhttp2= new XMLHttpRequest();
+        var xhttp3= new XMLHttpRequest();
+        var time_on= 10;
+        var time_off = 10;
+
+        xhttp3.onreadystatechange= function(){
+            const obj = JSON.parse(this.responseText);
+            var element2 = document.getElementById('myCheck1');
+            var element3 = document.getElementById('enable_led_on');
+            var element4 = document.getElementById('enable_led_off');
+            document.getElementById("display_time").innerText     = obj.hour+":"+obj.min+":"+obj.sec;
+            document.getElementById("display_time_on").innerText  = obj.houro+":"+obj.mino;
+            document.getElementById("display_time_off").innerText = obj.hourof+":"+obj.minof;
+            document.getElementById("ip").innerText = obj.ip;
+
+            /* update state button */
+            if( obj.switch == 1){
+                element2.checked = true;
+            }
+            else{
+                element2.checked = false;
+            }
+            
+            /* update for state set time on */
+            if( time_on != obj.enao ){
+                time_on = obj.enao;
+                if(obj.enao == 1){
+                    element3.checked = true;
+                }
+                else{
+                    element3.checked = false;
+                }
+            }  
+            
+            /* update for state set time off */
+            if( time_off != obj.enao ){
+                time_off = obj.enao;
+                if(obj.enaof == 1){
+                    element4.checked = true;
+                }
+                else{
+                    element4.checked = false;
+                }
+            } 
+        }
+
+        setInterval(function ( ){
+            xhttp3.open("GET", "/switch_value", true);
+            xhttp3.send();
+        }, 500);
+
+        function verify_register_wifi_inf(){
+            var ssid = document.getElementById("ssid").value;
+            var pass = document.getElementById("pass").value;
+            xhttp2.open("POST", "/verify_wifi", true);
+            xhttp2.send(ssid+"#@@#@"+pass+"#@@#@");
+        }
+
+        function switch_button(){
+            var checkBox  = document.getElementById("myCheck1");
+            if(checkBox.checked == true){
+                xhttp1.open("POST", "/switch_button", true);
+                xhttp1.send("1");
+            }else{
+                xhttp1.open("POST", "/switch_button", true);
+                xhttp1.send("0");
+            }
+        }
+
+        function reset_wifi(){
+            xhttp2.open("POST", "/reset_wifi", true);
+            xhttp2.send(); 
+        }
+
+        function set_time(){
+            var hour_on      = document.getElementById("hour_on").value;
+            var min_on       = document.getElementById("min_on").value;
+            var hour_off     = document.getElementById("hour_off").value;
+            var min_off      = document.getElementById("min_off").value;
+            var checkBox_on  = document.getElementById("enable_led_on");
+            var checkBox_off = document.getElementById("enable_led_off");
+            var time_update  = document.getElementById("time_u").value;
+            var enable_on;
+            var enable_off;
+            if(checkBox_on.checked == true){
+                enable_on = 1;
+            }else{
+                enable_on = 0;
+            }
+            if(checkBox_off.checked == true){
+                enable_off = 1;
+            }else{
+                enable_off = 0;
+            }
+            xhttp2.open("POST", "/set_time", true);
+            xhttp2.send(hour_on+"/"+min_on+"/"+enable_on+"/"+hour_off+"/"+min_off+"/"+enable_off+"/"+time_update+"/"); 
+        }
+
+        function changeColor(){
+            var color = document.getElementById("rgb").value;
+            xhttp2.open("POST", "/rgb", true);
+            xhttp2.send(color);
+            // document.getElementById("rgb_value").innerText = color;
+        }
+
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.0.4/jscolor.min.js">
+        /* using for rgb */
+        function update(picker){
+            document.getElementById("rgb").innerHTML = Math.round(picker.rgb[0]) + ', ' + Math.round(picker.rgb[1]) + ', ' + Math.round(picker.rgb[2]);
+        }
+    </script>
+
+
+</body>
+</html>
+
+
+
+
+
+
+
